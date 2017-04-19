@@ -1,4 +1,4 @@
-require "./lib/god_machine.rb"
+require "./lib/god_machine_test.rb"
 require "test/unit"
 
 class GodMachineTest < Test::Unit::TestCase
