@@ -5,14 +5,26 @@ require 'test/unit'
 # Test base bot behavior.
 class RNGTest < Test::Unit::TestCase
   def test_random
-    assert RNG::random_command(nil, nil)
-  end
-
-  def test_random_max
+    min = 1
     max = 10
 
     (1..50).each do
-      assert (0..max).include? RNG::random_command(nil, max)
+      result = RNG::random_command(nil, nil)
+      assert (min..max).include? result[0]
+      assert_equal min, result[1]
+      assert_equal max, result[2]
+    end
+  end
+
+  def test_random_max
+    min = 1
+    max = 10
+
+    (1..50).each do
+      result = RNG::random_command(nil, max)
+      assert (1..max).include? result[0]
+      assert_equal min, result[1]
+      assert_equal max, result[2]
     end
   end
 
@@ -21,7 +33,10 @@ class RNGTest < Test::Unit::TestCase
     max = 10
 
     (1..50).each do
-      assert (min..max).include? RNG::random_command(min, max)
+      result = RNG::random_command(min, max)
+      assert (min..max).include? result[0]
+      assert_equal min, result[1]
+      assert_equal max, result[2]
     end
   end
 

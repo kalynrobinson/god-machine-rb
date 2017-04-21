@@ -1,14 +1,16 @@
 require 'active_record'
+require 'erb'
 require 'yaml'
-require 'pp'
 require_relative '../../lib/models/character'
+require './lib/utilities.rb'
 require 'test/unit'
+require 'pp'
 
 # Tests database connections.
 class ActiveRecordTest < Test::Unit::TestCase
   def setup
-    config = YAML.load_file('config/database.yml')
-    ActiveRecord::Base.establish_connection(config['test'])
+    config = YAML.load(ERB.new(File.read('config/database.yml')).result)['test']
+    ActiveRecord::Base.establish_connection(config)
   end
 
   def test_character_creation
@@ -21,12 +23,12 @@ class ActiveRecordTest < Test::Unit::TestCase
     assert character.valid?, 'Character with valid identifier is incorrectly interpreted as invalid.'
   end
 
-  def test_invalid_identifier_presence
+  def test_invalid_id_presence
     character = Character.new
     refute character.valid?, 'Character with no identifier is incorrectly interpreted as valid.'
   end
 
-  def test_invalid_identifier_uniqueness
+  def test_invalid_id_uniqueness
     character1 = Character.new(identifier: 'Duplicate')
     assert character1.save
 
@@ -54,5 +56,21 @@ class ActiveRecordTest < Test::Unit::TestCase
 
     character.stamina = 5
     assert character.valid?
+  end
+
+  def test_creation_options
+    identifier = 'Options Test'
+    name = 'This is a test'
+    stamina = 5
+
+    input = "identifier: #{identifier}, name: #{name}, stamina: #{stamina}"
+    options = Utilities::to_options(input)
+
+    character = Character.new(options)
+
+    assert_equal identifier, character.identifier
+    assert_equal name, character.name
+    assert_equal stamina, character.stamina
+    assert character.save
   end
 end

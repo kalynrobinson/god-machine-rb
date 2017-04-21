@@ -93,10 +93,10 @@ module RNG
     end
 
     def random_command(min, max)
-      if max
+      if min && max
         return rand(min.to_i..max.to_i), min.to_i, max.to_i
-      elsif min
-        return rand(0..min.to_i), 1, min.to_i
+      elsif max
+        return rand(1..max.to_i), 1, max.to_i
       else
         return rand(1..10), 1, 10
       end

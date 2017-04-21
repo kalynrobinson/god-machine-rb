@@ -63,9 +63,18 @@ rollfor:
     - '--sum: outputs sum of all dice rolls.'
 
 create:
-  description: 'Create a character with the given name.'
+  description: 'Create a character with the given identifier. Identifier must be unique.'
   usage: 'create [identifier] [attributes]'
   parameters:
+  icon: 'http://emojipedia-us.s3.amazonaws.com/cache/49/d3/49d3a18cd6bdbd5ece46301ea890f24e.png'
+  color: 0x28b8ff
+  results:
+    success:
+      message: 'Success!'
+      thumbnail: 'http://emojipedia-us.s3.amazonaws.com/cache/63/24/63242c36f558553455bd96b10195dff2.png'
+    failure:
+      message: 'Failure...'
+      thumbnail: 'http://emojipedia-us.s3.amazonaws.com/cache/13/6e/136e9598cf792b90fa8c9c57e25545f8.png'
 
 options:
   separator: ','
