@@ -1,5 +1,6 @@
 # This simple bot responds to every "Ping!" message with a "Pong!"
 
+require 'active_record'
 require 'discordrb'
 require 'yaml'
 require_relative 'rng'

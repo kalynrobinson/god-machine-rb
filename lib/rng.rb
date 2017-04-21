@@ -28,8 +28,45 @@ module RNG
   # --sum: outputs sum of all dice rolls.
   command(:roll, description: COMMANDS_CONFIG['roll']['description'],
           usage: COMMANDS_CONFIG['roll']['usage'],
-          parameters: COMMANDS_CONFIG['roll']['parameters']) do |_event, *args|
-    roll_command(args)
+          parameters: COMMANDS_CONFIG['roll']['parameters']) do |event, *args|
+    dice, rolls, offset, flags, min, max = roll_command(args)
+
+    # Collect flags.
+    do_sum = flags.include?('--sum') || flags.include?('--s')
+    explode = flags.include?('--explode') || flags.include?('--e')
+    to_explode = [10] # TODO: replace with setting
+
+    sum = rolls.inject(:+) + offset.to_i
+    median = ((max - min + 1).to_f / 2).ceil
+    case sum
+    when min
+      title = COMMANDS_CONFIG['roll']['results']['crit fail']['message']
+      thumbnail = COMMANDS_CONFIG['roll']['results']['crit fail']['thumbnail']
+    when min+1..median-1
+      title = COMMANDS_CONFIG['roll']['results']['fail']['message']
+      thumbnail = COMMANDS_CONFIG['roll']['results']['fail']['thumbnail']
+    when median
+      title = COMMANDS_CONFIG['roll']['results']['average']['message']
+      thumbnail = COMMANDS_CONFIG['roll']['results']['average']['thumbnail']
+    when median+1..max-1
+      title = COMMANDS_CONFIG['roll']['results']['success']['message']
+      thumbnail = COMMANDS_CONFIG['roll']['results']['success']['thumbnail']
+    when max
+      title = COMMANDS_CONFIG['roll']['results']['crit success']['message']
+      thumbnail = COMMANDS_CONFIG['roll']['results']['crit success']['thumbnail']
+    end
+
+    event.channel.send_embed do |embed|
+      embed.title = title
+      embed.colour = COMMANDS_CONFIG['roll']['color']
+      embed.description = rolls.map { |r| to_explode.include?(r) && explode ? "**#{r}**" : r }.join(' + ')
+      embed.description += ' *%{operator} %{offset}* ' % { operator: offset[0], offset: offset[1..offset.length] } if offset
+      embed.description += " = #{sum}" if do_sum
+
+      embed.thumbnail = Discordrb::Webhooks::EmbedThumbnail.new url: thumbnail
+      embed.author = Discordrb::Webhooks::EmbedAuthor.new name: 'Rolling %{dice}...' % { dice: dice.join(' ') },
+                                                          icon_url: COMMANDS_CONFIG['roll']['icon']
+    end
   end
 
   command(:rollfor, description: COMMANDS_CONFIG['rollfor']['description'],
@@ -58,20 +95,9 @@ module RNG
       flags, dice = args.partition { |p| p.start_with? '--' }
 
       # Roll dice.
-      rolls, offset = roll(dice, flags)
+      rolls, offset, min, max = roll(dice, flags)
 
-      # Collect flags.
-      sum = flags.include?('--sum') || flags.include?('--s')
-      explode = flags.include?('--explode') || flags.include?('--e')
-      to_explode = [10] # TODO: replace with setting
-
-      # Output roll.
-      output = "**Rolling %{dice}**:\n" % { dice: dice.join(' ') }
-      output += rolls.map { |r| to_explode.include?(r) && explode ? "**#{r}**" : r }.join(' + ')
-      output += ' *%{operator} %{offset}* ' % { operator: offset[0], offset: offset[1..offset.length] } if offset
-      output += ' = %{sum}' % { sum: rolls.inject(:+) + offset.to_i } if sum
-
-      output
+      return dice, rolls, offset, flags, min, max
     end
 
     # Determines type of roll: NdS, min-max, orphan, empty, attributes, or alias.
@@ -81,11 +107,17 @@ module RNG
 
       case dice[0]
       when Patterns::MINMAX
-        return roll_minmax($1, $2, flags), $3
+        min = $1.to_i + $3.to_i
+        max = $2.to_i + $3.to_i
+        return roll_minmax($1, $2, flags), $3, min, max
       when Patterns::ORPHAN
-        return roll_minmax(1, dice[0], flags), nil
+        min = 1
+        max = dice[0]
+        return roll_minmax(min, max, flags), nil, min, max
       when Patterns::NDS
-        return roll_nds($1, $2, flags), $3
+        min = 1 + $3.to_i
+        max = $2.to_i + $3.to_i
+        return roll_nds($1, $2, flags), $3, min, max
       else
         -1
       end
