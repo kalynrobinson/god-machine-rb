@@ -13,8 +13,20 @@ module RNG
   command(:random, min_args: 0, max_args: 2,
           description: COMMANDS_CONFIG['random']['description'],
           usage: COMMANDS_CONFIG['random']['description'],
-          parameters: COMMANDS_CONFIG['random']['parameters']) do |_event, min, max|
-    random_command(min, max)
+          parameters: COMMANDS_CONFIG['random']['parameters']) do |event, min, max|
+    roll, min, max = random_command(min, max)
+
+    result = calculate_result(min, max, roll)
+
+    event.channel.send_embed do |embed|
+      embed.title = COMMANDS_CONFIG['random']['results'][result]['message']
+      embed.colour = COMMANDS_CONFIG['random']['color']
+      embed.description = roll
+
+      embed.thumbnail = Discordrb::Webhooks::EmbedThumbnail.new url: COMMANDS_CONFIG['random']['results'][result]['thumbnail']
+      embed.author = Discordrb::Webhooks::EmbedAuthor.new name: "Generating random number from #{min} to #{max}...",
+                                                          icon_url: COMMANDS_CONFIG['random']['icon']
+    end
   end
 
   # Simulates a dice roll in a variety of ways, depending on the given inputs, e.g.
@@ -37,33 +49,16 @@ module RNG
     to_explode = [10] # TODO: replace with setting
 
     sum = rolls.inject(:+) + offset.to_i
-    median = ((max - min + 1).to_f / 2).ceil
-    case sum
-    when min
-      title = COMMANDS_CONFIG['roll']['results']['crit fail']['message']
-      thumbnail = COMMANDS_CONFIG['roll']['results']['crit fail']['thumbnail']
-    when min+1..median-1
-      title = COMMANDS_CONFIG['roll']['results']['fail']['message']
-      thumbnail = COMMANDS_CONFIG['roll']['results']['fail']['thumbnail']
-    when median
-      title = COMMANDS_CONFIG['roll']['results']['average']['message']
-      thumbnail = COMMANDS_CONFIG['roll']['results']['average']['thumbnail']
-    when median+1..max-1
-      title = COMMANDS_CONFIG['roll']['results']['success']['message']
-      thumbnail = COMMANDS_CONFIG['roll']['results']['success']['thumbnail']
-    when max
-      title = COMMANDS_CONFIG['roll']['results']['crit success']['message']
-      thumbnail = COMMANDS_CONFIG['roll']['results']['crit success']['thumbnail']
-    end
+    result = calculate_result(min, max, sum)
 
     event.channel.send_embed do |embed|
-      embed.title = title
+      embed.title = COMMANDS_CONFIG['roll']['results'][result]['message']
       embed.colour = COMMANDS_CONFIG['roll']['color']
       embed.description = rolls.map { |r| to_explode.include?(r) && explode ? "**#{r}**" : r }.join(' + ')
       embed.description += ' *%{operator} %{offset}* ' % { operator: offset[0], offset: offset[1..offset.length] } if offset
       embed.description += " = #{sum}" if do_sum
 
-      embed.thumbnail = Discordrb::Webhooks::EmbedThumbnail.new url: thumbnail
+      embed.thumbnail = Discordrb::Webhooks::EmbedThumbnail.new url: COMMANDS_CONFIG['roll']['results'][result]['thumbnail']
       embed.author = Discordrb::Webhooks::EmbedAuthor.new name: 'Rolling %{dice}...' % { dice: dice.join(' ') },
                                                           icon_url: COMMANDS_CONFIG['roll']['icon']
     end
@@ -79,13 +74,31 @@ module RNG
   end
 
   class << self
+    def calculate_result(min, max, sum)
+      median = ((max - min + 1).to_f / 2).ceil
+      case sum
+      when min
+        return 'crit fail'
+      when min+1..median-1
+        return 'fail'
+      when median
+        return 'average'
+      when median+1..max-1
+        return  'success'
+      when max
+        return  'crit success'
+      else
+        return 'you fucked up'
+      end
+    end
+
     def random_command(min, max)
       if max
-        rand(min.to_i..max.to_i) if max
+        return rand(min.to_i..max.to_i), min.to_i, max.to_i
       elsif min
-        rand(0..min.to_i) if min
+        return rand(0..min.to_i), 1, min.to_i
       else
-        rand
+        return rand(1..10), 1, 10
       end
     end
 
@@ -115,8 +128,8 @@ module RNG
         max = dice[0]
         return roll_minmax(min, max, flags), nil, min, max
       when Patterns::NDS
-        min = 1 + $3.to_i
-        max = $2.to_i + $3.to_i
+        min = (1 * $1.to_i) + $3.to_i
+        max = ($2.to_i * $1.to_i) + $3.to_i
         return roll_nds($1, $2, flags), $3, min, max
       else
         -1
