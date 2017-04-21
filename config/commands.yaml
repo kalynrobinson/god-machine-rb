@@ -1,0 +1,39 @@
+roll:
+  description: 'Simulates a dice roll in a variety of ways, depending on the given inputs.'
+  usage: 'roll [dice] [+/-F] [flags]'
+  parameters:
+    - 'The following dice formats are supported:'
+    - 'NdS+/-F (usage 1d10, d10, 3d6+3, 2d20-5) rolls N dice with S sides and adds or subtracts given offset F.'
+    - 'min-max+/-F (usage 1-10, 1-3+5, 1-20-3) rolls one dice between min and max, then adds or subtracts given offset F.'
+    - 'S+/-F (usage 10, 5+3, 4-1) rolls one dice between 1 and S, inclusive, and adds or subtracts given offset F.'
+    - 'Empty (no dice arguments given) rolls one dice between 1 and 10 with no offset.'
+    -
+    - 'The following flags are supported:'
+    - '--successes: explodes critical successes as defined in the settings. Defaults to exploding 10s.'
+    - '--sum: outputs sum of all dice rolls.'
+  timeout: 50
+
+random:
+  description: 'Generates a random number between 0 and 1, 0 and `max` or `min` and `max`'
+  usage: 'random [min/max] [max]'
+  parameters:
+
+rollfor:
+  description: 'Rolls Nd10 for a given character where N is the sum of their attributes.'
+  usage: 'rollfor [character] [attributes] [+/-F] [flags]'
+  parameters:
+    - 'character: Alphanumeric identifier for a particular character. Character must exist.'
+    - 'attributes: Space-delimited list of attributes used to determine number of dice to roll.'
+    - 'f: Offset to add or subtract from the results. Must begin with + or -.'
+    - 'The following flags are supported:'
+    - '--successes: explodes critical successes as defined in the settings. Defaults to exploding 10s.'
+    - '--sum: outputs sum of all dice rolls.'
+
+create:
+  description: 'Create a character with the given name.'
+  usage: 'create [identifier] [attributes]'
+  parameters:
+
+options:
+  separator: ','
+  key_separator: ':'

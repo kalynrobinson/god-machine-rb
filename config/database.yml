@@ -1,0 +1,26 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  database: god_machine_development
+  username: god_machine
+  password: <%= ENV['DB_PASSWORD'] %>
+  host: localhost
+  port: 5432
+
+test:
+  adapter: postgresql
+  database: god_machine_test
+  username: god_machine
+  password: <%= ENV['DB_PASSWORD'] %>
+  host: localhost
+  port: 5432
+
+production:
+  <<: *default
+  database: god_machine_production
+  username: god_machine
+  password: <%= ENV['god_machine_DATABASE_PASSWORD'] %>
