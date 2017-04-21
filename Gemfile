@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
 gem 'discordrb', platforms: :ruby
-gem 'rake'
+gem 'pg'
 gem 'rubocop', require: false
-gem 'sqlite3'
+gem 'standalone_migrations'

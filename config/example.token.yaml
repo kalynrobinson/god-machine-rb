@@ -1,4 +1,5 @@
 ---
+prefix: '!'
 token: YOUR_TOKEN
 client_id: YOUR_CLIENT_ID
 invite: '../data/invite.txt'

@@ -2,9 +2,15 @@
 
 require 'discordrb'
 require 'yaml'
+require_relative 'rng'
+require_relative 'character_management'
 
-CONFIG = YAML.load_file('../config/token.yaml')
-bot = Discordrb::Bot.new token: CONFIG['token'], client_id: CONFIG['client_id']
+CONFIG = YAML.load_file('./config/token.yaml')
+bot = Discordrb::Commands::CommandBot.new token: CONFIG['token'],
+                                          client_id: CONFIG['client_id'],
+                                          prefix: CONFIG['prefix']
+bot.include! RNG
+bot.include! CharacterManagement
 
 unless File.exist? CONFIG['invite']
   invite = open(CONFIG['invite'], 'w')

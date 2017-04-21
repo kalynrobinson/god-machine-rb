@@ -1,0 +1,15 @@
+no_database:
+  adapter: postgresql
+  database: god_machine_test_wrong
+  username: god_machine
+  password: <%= ENV['DB_PASSWORD'] %>
+  host: localhost
+  port: 5432
+
+bad_authentication:
+  adapter: postgresql
+  database: god_machine_test
+  username: god_machine
+  password: <%= ENV['DB_PASSWORD'] %>_wrong
+  host: localhost
+  port: 5432
