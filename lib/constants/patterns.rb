@@ -6,4 +6,7 @@ module Patterns
   ORPHAN = /^\d+$/
   # min-max rolls, e.g. 1-10, 5-20+3, 4-10-4
   MINMAX = /^(\d+)-(\d+)([+-]\d+)?$/
+
+  # N-again flag, e.g. --10-again, --10, --9-again, --9
+  NAGAIN = /^--(\d+)(-again)?$/
 end

@@ -6,4 +6,12 @@ module Rolls
   ATTRIBUTES = 3
   ALIAS = 4
   EMPTY = 6
+
+  SUCCESSES = [8, 9, 10]
+
+  ROLLABLE = %w{intelligence wits resolve strength dexterity stamina presence manipulation composure
+              academics computer crafts investigation medicine occult politics science athletics brawl
+              drive firearms larceny stealth survival weaponry animal_ken empathy expression intimidation
+              persuasion socialize streetwise subterfuge health current_health willpower current_willpower
+              integrity size speed defense armor initiative}
 end

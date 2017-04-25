@@ -4,22 +4,25 @@ require 'yaml'
 require_relative '../../lib/models/character'
 require './lib/utilities.rb'
 require 'test/unit'
-require 'pp'
 
 # Tests database connections.
-class ActiveRecordTest < Test::Unit::TestCase
+class CharacterTest < Test::Unit::TestCase
   def setup
     config = YAML.load(ERB.new(File.read('config/database.yml')).result)['test']
     ActiveRecord::Base.establish_connection(config)
   end
 
+  def teardown
+    ActiveRecord::Base.connection.close
+  end
+
   def test_character_creation
-    character = Character.new(identifier: 'Saves Correctly')
+    character = Character.new(identifier: 'SavesCorrectly')
     assert character.save, 'Character is not saving correctly.'
   end
 
   def test_valid_character
-    character = Character.new(identifier: 'Validates Correctly')
+    character = Character.new(identifier: 'ValidatesCorrectly')
     assert character.valid?, 'Character with valid identifier is incorrectly interpreted as invalid.'
   end
 
@@ -43,7 +46,7 @@ class ActiveRecordTest < Test::Unit::TestCase
   end
 
   def test_invalid_numericality
-    character = Character.new(identifier: 'Invalid Numericality')
+    character = Character.new(identifier: 'InvalidNumericality')
     assert character.valid?
 
     character.stamina = 'Invalid'
@@ -51,7 +54,7 @@ class ActiveRecordTest < Test::Unit::TestCase
   end
 
   def test_valid_numericality
-    character = Character.new(identifier: 'Valid Numericality')
+    character = Character.new(identifier: 'ValidNumericality')
     assert character.valid?
 
     character.stamina = 5
@@ -59,7 +62,7 @@ class ActiveRecordTest < Test::Unit::TestCase
   end
 
   def test_creation_options
-    identifier = 'Options Test'
+    identifier = 'OptionsTest'
     name = 'This is a test'
     stamina = 5
 

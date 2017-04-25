@@ -29,6 +29,10 @@ roll:
     crit success:
       message: 'Wow! A critical success!'
       thumbnail: 'http://emojipedia-us.s3.amazonaws.com/cache/a9/fd/a9fd26d9a700d63f5971e26d8e2aa787.png'
+    failure:
+      message: 'Failure...'
+      description: 'You entered an invalid dice format. See `help roll` for valid formats.'
+      thumbnail: 'http://emojipedia-us.s3.amazonaws.com/cache/13/6e/136e9598cf792b90fa8c9c57e25545f8.png'
 
 random:
   description: 'Generates a random number between 0 and 1, 0 and `max` or `min` and `max`'
@@ -53,7 +57,7 @@ random:
 
 rollfor:
   description: 'Rolls Nd10 for a given character where N is the sum of their attributes.'
-  usage: 'rollfor [character] [attributes] [+/-F] [flags]'
+  usage: 'rollfor [character], [attributes] [+/-F] [flags]'
   parameters:
     - 'character: Alphanumeric identifier for a particular character. Character must exist.'
     - 'attributes: Space-delimited list of attributes used to determine number of dice to roll.'
@@ -61,10 +65,31 @@ rollfor:
     - 'The following flags are supported:'
     - '--successes: explodes critical successes as defined in the settings. Defaults to exploding 10s.'
     - '--sum: outputs sum of all dice rolls.'
+  icon: 'http://emojipedia-us.s3.amazonaws.com/cache/a9/fd/a9fd26d9a700d63f5971e26d8e2aa787.png'
+  results:
+    crit fail:
+      message: "Wow! You're dead!"
+      thumbnail: 'http://emojipedia-us.s3.amazonaws.com/cache/ab/04/ab0411dd94f212b655cba7f9df4080dc.png'
+    fail:
+      message: 'What a bad roll.'
+      thumbnail: 'http://emojipedia-us.s3.amazonaws.com/cache/7e/2a/7e2add5f86c01e6c39acd95cc151dd77.png'
+    average:
+      message: 'Meh, you did alright.'
+      thumbnail: 'http://emojipedia-us.s3.amazonaws.com/cache/4e/ed/4eed9ab32623b203e4823d77f69e7302.png'
+    success:
+      message: 'Nice one!'
+      thumbnail: 'http://emojipedia-us.s3.amazonaws.com/cache/5f/96/5f96fbfff67b418ee72fe1441c2120da.png'
+    crit success:
+      message: 'Wow! A critical success!'
+      thumbnail: 'http://emojipedia-us.s3.amazonaws.com/cache/a9/fd/a9fd26d9a700d63f5971e26d8e2aa787.png'
+    failure:
+      message: 'Failure...'
+      thumbnail: 'http://emojipedia-us.s3.amazonaws.com/cache/13/6e/136e9598cf792b90fa8c9c57e25545f8.png'
+
 
 create:
-  description: 'Create a character with the given identifier. Identifier must be unique.'
-  usage: 'create [identifier] [attributes]'
+  description: 'Create a character with the given identifier. Identifier must be unique. Additional attributes may be provided.'
+  usage: 'create <identifier> [attribute: value, ...]'
   parameters:
   icon: 'http://emojipedia-us.s3.amazonaws.com/cache/49/d3/49d3a18cd6bdbd5ece46301ea890f24e.png'
   color: 0x28b8ff
@@ -75,6 +100,57 @@ create:
     failure:
       message: 'Failure...'
       thumbnail: 'http://emojipedia-us.s3.amazonaws.com/cache/13/6e/136e9598cf792b90fa8c9c57e25545f8.png'
+
+set:
+  description: "Sets a character's attributes to the given values."
+  usage: 'set character: <character>, [attribute: value...]'
+  parameters:
+  icon: 'http://emojipedia-us.s3.amazonaws.com/cache/b3/84/b384942abd3e41ee0a02ce2b2581ba72.png'
+  color: 0x28b8ff
+  results:
+    success:
+      message: 'Success!'
+      thumbnail: 'http://emojipedia-us.s3.amazonaws.com/cache/6f/85/6f85601457fdc057c43d7173652a4667.png'
+    failure:
+      message: 'Failure...'
+      thumbnail: 'http://emojipedia-us.s3.amazonaws.com/cache/42/62/42625b9cf85cbdc83e454381c2357b30.png'
+
+sheet:
+  description: "Displays a character's profile sheet."
+  usage: 'sheet <identifier>'
+  parameters:
+  icon: 'http://emojipedia-us.s3.amazonaws.com/cache/e1/f7/e1f73959273a87ae04548193534ace11.png'
+  color: 0x28b8ff
+  results:
+    failure:
+      description: 'Try searching for a different character.'
+      thumbnail: 'http://emojipedia-us.s3.amazonaws.com/cache/42/62/42625b9cf85cbdc83e454381c2357b30.png'
+  emojis:
+    -
+      - '🇧'
+      - 'checked_show_page(1)'
+    -
+      - '🇦'
+      - 'checked_show_page(2)'
+    -
+      - '🇸'
+      - 'checked_show_page(3)'
+    -
+      - '🇲'
+      - 'checked_show_page(4)'
+    -
+      - '🇪'
+      - 'checked_show_page(5)'
+    -
+      - '⏹'
+      - 'stop_pages'
+    -
+      - '❓'
+      - 'show_help'
+
+botpermissions:
+  description: "Returns a list of God Machine's permissions."
+  usage: 'botpermissions'
 
 options:
   separator: ','
