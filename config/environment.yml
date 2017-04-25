@@ -1,0 +1,1 @@
+environment: <%= ENV['RUBY_ENV'] || 'production' %>

@@ -1,6 +1,17 @@
 class Character < ActiveRecord::Base
   validates :identifier, presence: true,
-                         uniqueness: { case_sensitive: false }
+                         uniqueness: { case_sensitive: true },
+                         length: { maximum: 255 },
+                         format: {
+                           :with => /\A[^,\s]+\z/,
+                           :message => 'Commas and spaces are not allowed in identifier.'
+                         }
+
+  validates :virtue, length: { maximum: 255 }
+  validates :vice, length: { maximum: 255 }
+  validates :concept, length: { maximum: 255 }
+  validates :faction, length: { maximum: 255 }
+  validates :group_name, length: { maximum: 255 }
 
   # Attributes
   validates :intelligence, numericality: { only_integer: true }, allow_nil: true

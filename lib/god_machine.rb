@@ -1,5 +1,6 @@
 # This simple bot responds to every "Ping!" message with a "Pong!"
 
+require 'active_record'
 require 'discordrb'
 require 'yaml'
 require_relative 'rng'
@@ -9,8 +10,8 @@ CONFIG = YAML.load_file('./config/token.yaml')
 bot = Discordrb::Commands::CommandBot.new token: CONFIG['token'],
                                           client_id: CONFIG['client_id'],
                                           prefix: CONFIG['prefix']
-bot.include! RNG
-bot.include! CharacterManagement
+cogs = [RNG, CharacterManagement, Utilities]
+cogs.each { |cog| bot.include! cog }
 
 unless File.exist? CONFIG['invite']
   invite = open(CONFIG['invite'], 'w')

@@ -5,6 +5,7 @@ default: &default
 
 development:
   <<: *default
+  adapter: postgresql
   database: god_machine_development
   username: god_machine
   password: <%= ENV['DB_PASSWORD'] %>
@@ -21,6 +22,7 @@ test:
 
 production:
   <<: *default
+  adapter: postgresql
   database: god_machine_production
   username: god_machine
   password: <%= ENV['god_machine_DATABASE_PASSWORD'] %>

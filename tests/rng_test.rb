@@ -1,3 +1,4 @@
+require 'active_record'
 require 'discordrb'
 require './lib/rng.rb'
 require 'test/unit'
@@ -5,14 +6,26 @@ require 'test/unit'
 # Test base bot behavior.
 class RNGTest < Test::Unit::TestCase
   def test_random
-    assert RNG::random_command(nil, nil)
-  end
-
-  def test_random_max
+    min = 1
     max = 10
 
     (1..50).each do
-      assert (0..max).include? RNG::random_command(nil, max)
+      result = RNG::random_command(nil, nil)
+      assert (min..max).include? result[0]
+      assert_equal min, result[1]
+      assert_equal max, result[2]
+    end
+  end
+
+  def test_random_max
+    min = 1
+    max = 10
+
+    (1..50).each do
+      result = RNG::random_command(nil, max)
+      assert (1..max).include? result[0]
+      assert_equal min, result[1]
+      assert_equal max, result[2]
     end
   end
 
@@ -21,7 +34,10 @@ class RNGTest < Test::Unit::TestCase
     max = 10
 
     (1..50).each do
-      assert (min..max).include? RNG::random_command(min, max)
+      result = RNG::random_command(min, max)
+      assert (min..max).include? result[0]
+      assert_equal min, result[1]
+      assert_equal max, result[2]
     end
   end
 
@@ -83,7 +99,7 @@ class RNGTest < Test::Unit::TestCase
     assert_equal expected, result[0]
   end
 
-  def test_roll_nds_explode_no_10s
+  def test_roll_nds_explode_no_agains
     number = 5
     sides = 10
     expected_length = [4, 7, 6, 5, 9].length
@@ -93,23 +109,23 @@ class RNGTest < Test::Unit::TestCase
     assert_equal expected_length, result[0].length
   end
 
-  def test_roll_nds_explode_10s
+  def test_roll_nds_10_again
     number = 5
     sides = 10
     expected = [3, 6, 2, 5, 10, 6]
 
     srand 12345
-    result = RNG::roll(["#{number}d#{sides}"], ['--explode'])
+    result = RNG::roll(["#{number}d#{sides}"], ['--10-again'])
     assert_equal expected, result[0]
   end
 
-  def test_roll_nds_explode_10s_shorthand
+  def test_roll_nds_10_again_shorthand
     number = 5
     sides = 10
     expected = [3, 6, 2, 5, 10, 6]
 
     srand 12345
-    result = RNG::roll(["#{number}d#{sides}"], ['--e'])
+    result = RNG::roll(["#{number}d#{sides}"], ['--10'])
     assert_equal expected, result[0]
   end
 
@@ -154,5 +170,17 @@ class RNGTest < Test::Unit::TestCase
       assert (min..max).include? result[0][0]
       assert_equal offset, result[1]
     end
+  end
+
+  def test_get_agains
+    input = %w{--10-again --10 --9-again --9 not an again --not --an --again}
+    expected = [10, 10, 9, 9]
+    assert_equal expected, RNG::get_agains(input)
+  end
+
+  def test_get_successes
+    input = [1, 2, 3, 4, 5, 6, 7, 8, 8, 9, 9, 9, 10, 10, 10, 10]
+    expected = 9
+    assert_equal expected, RNG::get_successes(input)
   end
 end
