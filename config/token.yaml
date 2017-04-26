@@ -1,0 +1,5 @@
+---
+prefix: '/'
+token: <%= ENV['TOKEN'] %>
+client_id: <%= ENV['CLIENT_ID'] %>
+invite: './data/invite.txt'

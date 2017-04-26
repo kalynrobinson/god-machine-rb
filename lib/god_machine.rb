@@ -6,7 +6,8 @@ require 'yaml'
 require_relative 'rng'
 require_relative 'character_management'
 
-CONFIG = YAML.load_file('./config/token.yaml')
+CONFIG = YAML.load(ERB.new(File.read('./config/token.yaml')).result)
+
 bot = Discordrb::Commands::CommandBot.new token: CONFIG['token'],
                                           client_id: CONFIG['client_id'],
                                           prefix: CONFIG['prefix']
