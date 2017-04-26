@@ -1,0 +1,1 @@
+bot: ruby ./lib/god_machine.rb
