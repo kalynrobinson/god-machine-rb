@@ -149,10 +149,12 @@ module RNG
 
       errors = []
       if character && attributes.any?
-        invalid_attr = attributes - character.keys
-        errors += invalid_attr.map { |a| "unknown attribute '#{a}' for Character." } if invalid_attr.length > 0
-        invalid_attr = attributes - Rolls::ROLLABLE
-        errors += invalid_attr.map { |a| "attribute '#{a}' is not a number." } if invalid_attr.length > 0
+        specific_attributes = Utilities::specific_array(attributes)
+        invalid_attr = specific_attributes - character.keys
+        errors += invalid_attr.map.with_index { |_a, i| "unknown attribute '#{attributes[i]}' for Character." } if invalid_attr.length > 0
+
+        invalid_attr = specific_attributes - Rolls::ROLLABLE
+        errors += invalid_attr.map { |_a, i| "attribute '#{attributes[i]}' is not a number." } if invalid_attr.length > 0
       elsif character && attributes.none?
         errors += ['No attributes were specified.']
       elsif not character
@@ -182,7 +184,8 @@ module RNG
 
     def rollfor_command(character, attributes, flags)
       sides = 10
-      number = attributes.inject(0) { |sum, attr| sum + character[attr].to_i }
+      specific_attributes = Utilities::specific_array(attributes)
+      number = specific_attributes.inject(0) { |sum, attr| sum + character[attr].to_i }
 
       flags << '--10-again' unless flags.include?('--no-10-again') || flags.include?('--no-10')
 

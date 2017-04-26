@@ -154,9 +154,10 @@ module CharacterManagement
     def update_character(args)
       identifier, options = parse_args(args)
       character = Character.where(identifier: identifier).first
+      generic_options = Utilities::specific_options(options)
 
       begin
-        saved = character ? character.update_attributes(options) : false
+        saved = character ? character.update_attributes(generic_options) : false
         errors = character ? character.errors.full_messages.join("\n • ") : "#{identifier} does not exist."
       rescue ActiveModel::UnknownAttributeError => errors
       end
@@ -167,9 +168,10 @@ module CharacterManagement
     def create_character(args)
       identifier, options = parse_args(args)
       options[:identifier] = identifier
+      generic_options = Utilities::specific_options(options)
 
       begin
-        character = Character.new(options)
+        character = Character.new(generic_options)
       rescue ActiveModel::UnknownAttributeError => errors
       end
 
@@ -179,6 +181,7 @@ module CharacterManagement
     def parse_args(args)
       identifier = args.shift
       options = Utilities::to_options(args.join(' '))
+
       return identifier, options
     end
   end

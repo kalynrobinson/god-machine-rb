@@ -13,5 +13,5 @@ module Rolls
               academics computer crafts investigation medicine occult politics science athletics brawl
               drive firearms larceny stealth survival weaponry animal_ken empathy expression intimidation
               persuasion socialize streetwise subterfuge health current_health willpower current_willpower
-              integrity size speed defense armor initiative}
+              power resource current_resource integrity size speed defense armor initiative }
 end

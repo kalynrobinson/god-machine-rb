@@ -2,6 +2,7 @@ module Utilities
   extend Discordrb::Commands::CommandContainer
 
   require './lib/pages/pages'
+  require './lib/constants/attributes'
 
   COMMANDS_CONFIG = YAML.load_file('./config/commands.yaml')
 
@@ -40,6 +41,26 @@ module Utilities
       end
 
       options
+    end
+
+    # Replace x-, y-, and z-splat aliases with generic, e.g. :clan => :xsplat
+    def specific_options(options)
+      specific_options = options.dup
+      Attributes::SPLATS.each do |key, value|
+        (specific_options.keys & value).each { |a| specific_options[key] = specific_options.delete(a) }
+      end
+
+      specific_options
+    end
+
+    # Replace x-, y-, and z-splat aliases with generic, e.g. :clan => :xsplat
+    def specific_array(array)
+      specific_array = array.dup
+      Attributes::SPLATS.each do |key, value|
+        specific_array.map! { |attr| value.include?(attr.to_sym) ? key.to_s : attr }
+      end
+
+      specific_array
     end
   end
 end

@@ -22,4 +22,11 @@ module Attributes
       { name: 'Social',
         attributes: %w{presence manipulation composure} },
   ]
+
+  SPLATS = {
+      xsplat: [:clan, :auspice, :path, :lineage, :seeming, :compact, :threshold, :decree, :agenda, :family],
+      ysplat: [:covenant, :tribe, :order, :refinement, :court, :conspiracy, :archetype, :guild, :incarnation, :hunger],
+      zsplat: [:bloodline, :lodge, :legacy, :kith, :faction, :key],
+      power: [:blood_potency]
+  }
 end

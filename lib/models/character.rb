@@ -10,8 +10,9 @@ class Character < ActiveRecord::Base
   validates :virtue, length: { maximum: 255 }
   validates :vice, length: { maximum: 255 }
   validates :concept, length: { maximum: 255 }
-  validates :faction, length: { maximum: 255 }
-  validates :group_name, length: { maximum: 255 }
+  validates :xsplat, length: { maximum: 255 }
+  validates :ysplat, length: { maximum: 255 }
+  validates :zsplat, length: { maximum: 255 }
 
   # Attributes
   validates :intelligence, numericality: { only_integer: true }, allow_nil: true
@@ -57,7 +58,10 @@ class Character < ActiveRecord::Base
   validates :current_health, numericality: { only_integer: true }, allow_nil: true
   validates :willpower, numericality: { only_integer: true }, allow_nil: true
   validates :current_willpower, numericality: { only_integer: true }, allow_nil: true
-  validates :integrity, numericality: { only_integer: true }, allow_nil: true
+  validates :power, numericality: { only_integer: true }, allow_nil: true
+  validates :resource, numericality: { only_integer: true }, allow_nil: true
+  validates :current_resource, numericality: { only_integer: true }, allow_nil: true
+  validates :morality, numericality: { only_integer: true }, allow_nil: true
 
   # Combat modifiers
   validates :size, numericality: { only_integer: true }, allow_nil: true

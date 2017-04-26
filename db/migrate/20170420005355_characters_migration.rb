@@ -4,12 +4,14 @@ class CharactersMigration < ActiveRecord::Migration[5.0]
       # Basics
       t.string :identifier
       t.string :name
+      t.string :template
       t.integer :age
       t.string :virtue
       t.string :vice
       t.string :concept
-      t.string :faction
-      t.string :group_name
+      t.string :xsplat
+      t.string :ysplat
+      t.string :zsplat
 
       # Attributes
       t.integer :intelligence
@@ -53,9 +55,12 @@ class CharactersMigration < ActiveRecord::Migration[5.0]
       # Resources
       t.integer :health
       t.integer :willpower
+      t.integer :morality
+      t.integer :power
+      t.integer :resource
       t.integer :current_health
       t.integer :current_willpower
-      t.integer :integrity
+      t.integer :current_resource
 
       # Combat
       t.integer :size
