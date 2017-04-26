@@ -19,10 +19,7 @@ test:
   password: <%= ENV['DB_PASSWORD'] %>
   host: localhost
   port: 5432
-
+  
 production:
   <<: *default
-  adapter: postgresql
-  database: god_machine_production
-  username: god_machine
-  password: <%= ENV['god_machine_DATABASE_PASSWORD'] %>
+  url: <%= ENV['DATABASE_URL'] %>

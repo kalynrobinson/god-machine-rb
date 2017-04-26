@@ -21,6 +21,4 @@ test:
 
 production:
   <<: *default
-  database: god_machine_production
-  username: god_machine
-  password: <%= ENV['god_machine_DATABASE_PASSWORD'] %>
+  url: <%= ENV['DATABASE_URL'] %>
