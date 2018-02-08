@@ -16,23 +16,23 @@ roll:
   results:
     crit fail:
       message: <%= ENV['CRIT_FAIL'] %>
-      thumbnail: 'https://emojipedia-us.s3.amazonaws.com/thumbs/160/google/6/skull_1f480.png'
+      thumbnail: <%= ENV['CRIT_FAIL_THUMB'] %>
     fail:
       message: <%= ENV['BAD'] %>
-      thumbnail: 'https://emojipedia-us.s3.amazonaws.com/thumbs/160/google/40/thumbs-down-sign_1f44e.png'
+      thumbnail: <%= ENV['BAD_THUMB'] %>
     average:
       message: <%= ENV['AVERAGE'] %>
-      thumbnail: 'https://emojipedia-us.s3.amazonaws.com/thumbs/160/google/40/ok-hand-sign_1f44c.png'
+      thumbnail: <%= ENV['AVERAGE_THUMB'] %>
     success:
       message: <%= ENV['SUCCESS'] %>
-      thumbnail: 'https://emojipedia-us.s3.amazonaws.com/thumbs/160/google/6/confetti-ball_1f38a.png'
+      thumbnail: <%= ENV['SUCCESS_THUMB'] %>
     crit success:
       message: <%= ENV['CRIT_SUCCESS'] %>
-      thumbnail: 'https://emojipedia-us.s3.amazonaws.com/thumbs/160/google/6/crown_1f451.png'
+      thumbnail: <%= ENV['CRIT_SUCCESS_THUMB'] %>
     failure:
       message: <%= ENV['FAILURE'] %>
       description: 'You entered an invalid dice format. See `help roll` for valid formats.'
-      thumbnail: 'https://emojipedia-us.s3.amazonaws.com/thumbs/160/google/6/cross-mark_274c.png'
+      thumbnail: <%= ENV['FAILURE_THUMB'] %>
 
 random:
   description: 'Generates a random number between 0 and 1, 0 and `max` or `min` and `max`'
