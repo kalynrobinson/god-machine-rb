@@ -4,7 +4,7 @@ module Utilities
   require './lib/pages/pages'
   require './lib/constants/attributes'
 
-  COMMANDS_CONFIG = YAML.load_file('./config/commands.yaml')
+  COMMANDS_CONFIG = YAML.load(ERB.new(File.read('./config/commands.yml')).result)
 
   command(:botpermissions, min_args: 0,
           description: COMMANDS_CONFIG['botpermissions']['description'],

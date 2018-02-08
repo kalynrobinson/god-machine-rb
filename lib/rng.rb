@@ -8,8 +8,8 @@ module RNG
   require_relative 'constants/patterns'
   require_relative 'constants/rolls'
   require_relative 'models/character'
-
-  COMMANDS_CONFIG = YAML.load_file('./config/commands.yaml')
+  
+  COMMANDS_CONFIG = YAML.load(ERB.new(File.read('./config/commands.yml')).result)
   ENV = YAML.load(ERB.new(File.read('config/environment.yml')).result)['environment']
   DB_CONFIG = YAML.load(ERB.new(File.read('config/database.yml')).result)[ENV]
 
