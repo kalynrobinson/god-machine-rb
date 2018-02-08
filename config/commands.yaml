@@ -12,27 +12,27 @@ roll:
     - '--successes: explodes critical successes as defined in the settings. Defaults to exploding 10s.'
     - '--sum: outputs sum of all dice rolls.'
   timeout: 50
-  icon: 'http://emojipedia-us.s3.amazonaws.com/cache/fc/6f/fc6f0857b42e4c04a29e630c0bd7ce6a.png'
+  icon: '../assets/images/dice.png'
   results:
     crit fail:
       message: "Wow! You're dead!"
-      thumbnail: 'http://emojipedia-us.s3.amazonaws.com/cache/ab/04/ab0411dd94f212b655cba7f9df4080dc.png'
+      thumbnail: '../assets/images/skull.png'
     fail:
       message: 'What a bad roll.'
-      thumbnail: 'http://emojipedia-us.s3.amazonaws.com/cache/7e/2a/7e2add5f86c01e6c39acd95cc151dd77.png'
+      thumbnail: '../assets/images/thumbsdown.png'
     average:
       message: 'Meh, you did alright.'
-      thumbnail: 'http://emojipedia-us.s3.amazonaws.com/cache/4e/ed/4eed9ab32623b203e4823d77f69e7302.png'
+      thumbnail: '../assets/images/ok.png'
     success:
       message: 'Nice one!'
-      thumbnail: 'http://emojipedia-us.s3.amazonaws.com/cache/5f/96/5f96fbfff67b418ee72fe1441c2120da.png'
+      thumbnail: '../assets/images/confetti.png'
     crit success:
       message: 'Wow! A critical success!'
-      thumbnail: 'http://emojipedia-us.s3.amazonaws.com/cache/a9/fd/a9fd26d9a700d63f5971e26d8e2aa787.png'
+      thumbnail: '../assets/images/crown.png'
     failure:
       message: 'Failure...'
       description: 'You entered an invalid dice format. See `help roll` for valid formats.'
-      thumbnail: 'http://emojipedia-us.s3.amazonaws.com/cache/13/6e/136e9598cf792b90fa8c9c57e25545f8.png'
+      thumbnail: '../assets/images/x'
 
 random:
   description: 'Generates a random number between 0 and 1, 0 and `max` or `min` and `max`'
