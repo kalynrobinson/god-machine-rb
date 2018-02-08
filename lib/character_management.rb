@@ -7,8 +7,8 @@ module CharacterManagement
   require 'pp'
   require_relative 'models/character'
   require_relative 'utilities'
-
-  COMMANDS_CONFIG = YAML.load_file('./config/commands.yaml')
+  
+  COMMANDS_CONFIG = YAML.load(ERB.new(File.read('./config/commands.yaml')).result)
   ENV = YAML.load(ERB.new(File.read('config/environment.yml')).result)['environment']
   DB_CONFIG = YAML.load(ERB.new(File.read('config/database.yml')).result)[ENV]
 

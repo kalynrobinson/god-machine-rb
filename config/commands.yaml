@@ -15,22 +15,22 @@ roll:
   icon: 'https://emojipedia-us.s3.amazonaws.com/thumbs/160/google/56/game-die_1f3b2.png'
   results:
     crit fail:
-      message: "Wow! You're dead!"
+      message: <%= ENV['CRIT_FAIL'] %>
       thumbnail: 'https://emojipedia-us.s3.amazonaws.com/thumbs/160/google/6/skull_1f480.png'
     fail:
-      message: 'What a bad roll.'
+      message: <%= ENV['BAD'] %>
       thumbnail: 'https://emojipedia-us.s3.amazonaws.com/thumbs/160/google/40/thumbs-down-sign_1f44e.png'
     average:
-      message: 'Meh, you did alright.'
+      message: <%= ENV['AVERAGE'] %>
       thumbnail: 'https://emojipedia-us.s3.amazonaws.com/thumbs/160/google/40/ok-hand-sign_1f44c.png'
     success:
-      message: 'Nice one!'
+      message: <%= ENV['SUCCESS'] %>
       thumbnail: 'https://emojipedia-us.s3.amazonaws.com/thumbs/160/google/6/confetti-ball_1f38a.png'
     crit success:
-      message: 'Wow! A critical success!'
+      message: <%= ENV['CRIT_SUCCESS'] %>
       thumbnail: 'https://emojipedia-us.s3.amazonaws.com/thumbs/160/google/6/crown_1f451.png'
     failure:
-      message: 'Failure...'
+      message: <%= ENV['FAILURE'] %>
       description: 'You entered an invalid dice format. See `help roll` for valid formats.'
       thumbnail: 'https://emojipedia-us.s3.amazonaws.com/thumbs/160/google/6/cross-mark_274c.png'
 
